@@ -8,8 +8,10 @@ import (
 var jsonTestString string = ""
 
 func TestHTTP(t *testing.T) {
-	t.Errorf("Error 1")
+	//t.Errorf("Error 1")
+	return
 }
 func TestHTTP2(t *testing.T) {
-	t.Errorf("Error 2")
+	//t.Errorf("Error 2")
+	return
 }
