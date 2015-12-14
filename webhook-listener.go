@@ -30,8 +30,8 @@ type webhookJSONRespStruct struct {
 
 //-- Main Function
 func main() {
-	log.Println(fmt.Sprintf("Hornbill Webhook Listner V%s \r", version))
-	log.Println(fmt.Sprintf("Listening on Port: %s \r", port))
+	log.Println("Hornbill Webhook Listner V", version))
+	log.Println("Listening on Port: ", port))
 	//-- Run WebhookCatcher when the url :9000/api is called
 	http.HandleFunc("/api", webhookCatcher)
 	//-- Run HTTP server on port 9000
@@ -92,11 +92,11 @@ func processJSON(r *http.Request, w http.ResponseWriter) bool {
 	//-- Catch Errors
 	err := decoder.Decode(&t)
 	if err != nil {
-		log.Println(fmt.Sprintf("Error: %e\r", err))
+		log.Println("Error: ", err))
 		return false
 	}
 	//-- OutputEvent Source
-	log.Println(fmt.Sprintf("Action Name %s\r", t.OnEntityEvent.EventSource))
+	log.Println("Action Name ", t.OnEntityEvent.EventSource))
 	return true
 }
 
