@@ -1,4 +1,4 @@
-### Hornbill Webhook Listener Go - [GO](https://golang.org/) Hornbill
+### Hornbill Webhook Listener Go - [GO](https://golang.org/) Hornbill [![Build Status](https://travis-ci.org/hornbill/goWebhookListener.svg?branch=master)](https://travis-ci.org/hornbill/goWebhookListener)
 
 ### Overview
 The webhook listener provides an example web server that can run on any platform an accept by default in-comming HTTP requests to /api:9000, it will then decode the JSON payload from the [Hornbill](https://www.hornbill.com/) webhook and output in the console the Event Source. If the key ?key=123456 is correct, else it will return a 500 error causing the webhook to fail.
