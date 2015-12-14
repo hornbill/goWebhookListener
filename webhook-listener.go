@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json" //-- For JSON decoding
-	"fmt"           //-- For Output
 	"log"           //-- Log errors
 	"net/http"      //-- HTTP server
 )
@@ -23,15 +22,15 @@ type webhookJSONRespStruct struct {
 		EventSource      string `json:"eventSource"`
 		EventTime        string `json:"eventTime"`
 		Record           struct {
-			HPkID                   string `json:"h_pk_id"`
+			HPkID string `json:"h_pk_id"`
 		} `json:"record"`
 	} `json:"onEntityEvent"`
 }
 
 //-- Main Function
 func main() {
-	log.Println("Hornbill Webhook Listner V", version))
-	log.Println("Listening on Port: ", port))
+	log.Println("Hornbill Webhook Listner V", version)
+	log.Println("Listening on Port:", port)
 	//-- Run WebhookCatcher when the url :9000/api is called
 	http.HandleFunc("/api", webhookCatcher)
 	//-- Run HTTP server on port 9000
@@ -51,19 +50,18 @@ func webhookCatcher(w http.ResponseWriter, r *http.Request) {
 	//-- if Not Throw error
 	if !boolKeyIsValid {
 		throwError("Invalid or Missing Key", w)
-	} else {
-		log.Println("Process JSON")
-		//-- Try and Decode JSON From Wehbook
-		boolJSONProcess := processJSON(r, w)
-
-		//-- If JSON is not decoded correctly then throw error
-		if !boolJSONProcess {
-			throwError("Unable to Process JSON Response", w)
-		} else {
-			w.Write([]byte("Success"))
-		}
+		return
 	}
+	//-- Try and Decode JSON From Wehbook
+	boolJSONProcess := processJSON(r, w)
 
+	//-- If JSON is not decoded correctly then throw error
+	if !boolJSONProcess {
+		throwError("Unable to Process JSON Response", w)
+		return
+	}
+	//-- All Good
+	w.Write([]byte("Success"))
 }
 
 //-- Function to check if ?key matched the authKey set
@@ -84,6 +82,7 @@ func checkAuthKey(r *http.Request) bool {
 
 //-- Decode JSON Response from Webhook
 func processJSON(r *http.Request, w http.ResponseWriter) bool {
+	log.Println("Process JSON")
 	//-- Decode JSON from Request Body
 	//-- This only works if the webhook is set to JSON format and not XMLformat
 	decoder := json.NewDecoder(r.Body)
@@ -92,11 +91,11 @@ func processJSON(r *http.Request, w http.ResponseWriter) bool {
 	//-- Catch Errors
 	err := decoder.Decode(&t)
 	if err != nil {
-		log.Println("Error: ", err))
+		log.Println("Error: ", err)
 		return false
 	}
 	//-- OutputEvent Source
-	log.Println("Action Name ", t.OnEntityEvent.EventSource))
+	log.Println("Action Name ", t.OnEntityEvent.EventSource)
 	return true
 }
 
